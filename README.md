@@ -7,7 +7,8 @@ Supported Types of Questions:
 -Was <insert name here> born in <insert place of birth here>?
 
 The Algorithm uses Stanford CoreNLP in Python to produce a parse tree that taggs the input sentance, for example:
-            ROOT                 
+```
+ROOT                 
              |                    
              SQ                  
   ___________|_________________   
@@ -16,7 +17,7 @@ The Algorithm uses Stanford CoreNLP in Python to produce a parse tree that taggs
 VBZ   NNP    DT         NN     . 
  |     |     |          |      |  
  Is Kubrick  a       director  ?
-
+```
 Then this tree is converted into another tree of the same structure, but comprised of the custom nodes class
 that stores additional information:
 
