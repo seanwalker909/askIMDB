@@ -2,9 +2,9 @@
 askIMDB uses Natural Language Processing theory and the Stanford CoreNLP to provide a question answer interface 
 for questions that can be answered by retrieving data from the IMDB sqlite database.
 
-Supported Types of Questions:
-Is *insert name here* a director?
-Was *insert name here* born in <insert place of birth here>?
+# Supported Types of Questions:
+Is insert name here a director?
+Was insert name here born in <insert place of birth here>?
 
 The Algorithm uses Stanford CoreNLP in Python to produce a parse tree that taggs the input sentance, for example:
 ```
