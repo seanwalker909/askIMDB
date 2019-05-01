@@ -16,8 +16,8 @@ VBZ   NNP    DT         NN     .
  |     |     |          |      |  
  Is Kubrick  a       director  ?
 
-Then this tree is converted into another tree of the same structure, but comprised of the custom nodes class that stores 
-additional information:
+Then this tree is converted into another tree of the same structure, but comprised of the custom nodes class
+that stores additional information:
 
 ```
 class Node:
