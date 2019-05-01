@@ -13,8 +13,6 @@ import sys
 import sqlite3
 
 #function to store queries from input.txt file
-
-
 def readInputFile():
     queries = []
     print("Reading in input.txt file...")
@@ -24,16 +22,6 @@ def readInputFile():
             queries.append([line])
     print("input.txt queries read...")
     return queries
-
-#determines whether the POS type of a word in a query matches the types in POSList
-
-
-def isPOSPresent(pair):
-    for pos in POSList:
-        if(pair[1] == pos):
-            return True
-    return False
-
 
 class Node:
     def __init__(self, children, word, pos):
@@ -61,12 +49,14 @@ rules = {
     "SQ->VBD,NP,VP,.,": lambda a, b, c, d: a + c(b),
     "VBN->born": lambda uselessVariable: lambda pob: lambda name: "FROM Person WHERE pob LIKE '%" + pob + "%' AND Name LIKE '%" + name + "%';",
     "NNP->": lambda x: x,
-    "PP->IN,NP,": lambda a, b: b,
+    "PP->IN,NP,": lambda a, b: b if a is "" else a,
     "IN->in": lambda x: x,
     "VP->VBN,PP,": lambda x, y: x(y),
-    "VBD->Was": lambda x: "SELECT COUNT(*) "
+    "VBD->Was": lambda x: "SELECT COUNT(*) ",
 
     #Is Mighty Aphrodite by Allen?
+    # select * from Actor join Person on Person.id = Actor.actor_id join Director on Director.director_id = Actor.actor_id where Director.director_id = Person.id and Person.name like '%Allen%';
+    # SELECT * FROM Movie JOIN Director ON Director.movie_id = Movie.id join Person on Person.id = Director.director_id WHERE Person.name LIKE '%Allen%' AND Movie.name LIKE '%Mighty%' AND Movie.name LIKE '%Aphrodite%';
     #               ROOT
     #                |
     #                SQ
@@ -80,6 +70,8 @@ rules = {
     # VBZ  NNP      NNP     IN      NNP   .
     #  |    |        |      |        |    |
     #  Is Mighty Aphrodite  by     Allen  ?
+    "IN->by": lambda firstPartOfName : lambda secondPartOfName : "FROM Movie JOIN Director ON Director.movie_id = Movie.id join Person on Person.id = Director.director_id WHERE Person.name LIKE '%" + firstPartOfName + "%' AND Movie.name LIKE '%Mighty%' AND Movie.name LIKE '%" + secondPartOfName + "%';",
+    "NP->NP,PP,": lambda uselessVar, uselessVar2 : lambda x : uselessVar2(uselessVar)
 }
 
 #select count(*) from Director join Person on Person.id = Director.director_id where Person.name like "%Kubrick%";
@@ -161,6 +153,7 @@ def traverse_custom_tree(node):
         if len(args) is 0:
             args.append("")
         node.sem = lambdaFunction(*args)
+        print("node.sem: ", node.sem)
     elif "NNP->" in node.rule:
         node.sem = node.word
     else:
@@ -201,7 +194,7 @@ def main():
     print("Project Initializing...")
 
     #questions = readInputFile()
-    questions = [["Is Kubrick a director?"]]
+    questions = [["Is Kubrick a director?"], ["Was Loren born in Italy?"], ["Is Mighty Aphrodite by Allen?"]]
     parser = StanfordCoreNLP('http://localhost:9000')
 
     conn = sqlite3.connect("oscar-movie_imdb.sqlite")
