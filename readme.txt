@@ -19,7 +19,7 @@ VBZ   NNP    DT         NN     .
 Then this tree is converted into another tree of the same structure, but comprised of the custom nodes class that stores 
 additional information:
 
-```
+```python
 class Node:
     def __init__(self, children, word, pos):
         self.children = []
@@ -30,4 +30,10 @@ class Node:
 
     def addChild(self, newChild):
         self.children.append(newChild)
+```
+
+```ruby
+require 'redcarpet'
+markdown = Redcarpet.new("Hello World!")
+puts markdown.to_html
 ```
