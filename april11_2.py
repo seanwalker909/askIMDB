@@ -118,16 +118,16 @@ def isNLTKTreeLeaf(tree):
 
 def _buildSemanticTree(tree, curr):
     ruleKey = getRootString(tree) + "->"
-    # if isNLTKTreeLeaf(tree):
-    #     ruleKey = getRootString(tree) + "->" + str(tree).split(" ")[2].replace('(', '').replace(')', '')
-    #     child = Node([], getRootString(tree[0]), "")
-    #     curr.addChild(child)
-    #     print("printing ruleKey in if: ", ruleKey)
-    # else:
-    for subtree in tree:  # traverse to generate grammar rules
-        ruleKey = ruleKey + getRootString(subtree) + ", "
-        child = Node([], "", getRootString(subtree))
+    if isNLTKTreeLeaf(tree):
+        ruleKey = getRootString(tree) + "->" + str(tree).split(" ")[2].replace('(', '').replace(')', '')
+        child = Node([], getRootString(tree[0]), "")
         curr.addChild(child)
+        print("printing ruleKey in if: ", ruleKey)
+    else:
+        for subtree in tree:  # traverse to generate grammar rules
+            ruleKey = ruleKey + getRootString(subtree) + ", "
+            child = Node([], "", getRootString(subtree))
+            curr.addChild(child)
     curr.rule = ruleKey.replace(" ", "")
     print("ruleKey: ", ruleKey)
 
@@ -201,7 +201,7 @@ def main():
     print("Project Initializing...")
 
     #questions = readInputFile()
-    questions = [["Is Mighty Aphrodite by Allen?"]]
+    questions = [["Is Kubrick a director?"]]
     parser = StanfordCoreNLP('http://localhost:9000')
 
     conn = sqlite3.connect("oscar-movie_imdb.sqlite")
