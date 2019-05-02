@@ -43,7 +43,6 @@ rules = {
     "NP->NNP,": lambda a: a,
     "NP->DT,NN,": lambda a, b: b,
     "NN->director": lambda x: lambda y: "FROM Director, Person WHERE Director.director_id = Person.id AND Person.name LIKE '%" + y + "%';",
-    "NNP->*": lambda x: x,
 
     #Was Loren born in Italy?
     "SQ->VBD,NP,VP,.,": lambda a, b, c, d: a + c(b),
@@ -134,12 +133,10 @@ def _buildSemanticTree(tree, curr):
             print("ruleKey: ", curr.children[i].rule)
         i = i + 1
 
-
 def buildSemanticTree(tree):
     root = Node([], "", getRootString(tree))
     _buildSemanticTree(tree, root)
     return root
-
 
 def traverse_custom_tree(node):
     for child in node.children:
