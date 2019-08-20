@@ -1,6 +1,3 @@
-#Project Members:
-#Sohum Mehrotra smehro2 661149644
-#Sean Walker swalke30 667749204
 import nltk
 from gensim.models import Word2Vec
 from gensim.models import KeyedVectors
